@@ -1,5 +1,11 @@
 # Textnode
 
+[![npm version](https://img.shields.io/npm/v/@textnode/core?label=@textnode/core)](https://www.npmjs.com/package/@textnode/core)
+[![npm version](https://img.shields.io/npm/v/@textnode/react?label=@textnode/react)](https://www.npmjs.com/package/@textnode/react)
+[![npm version](https://img.shields.io/npm/v/@textnode/nextjs?label=@textnode/nextjs)](https://www.npmjs.com/package/@textnode/nextjs)
+[![npm version](https://img.shields.io/npm/v/@textnode/cli?label=@textnode/cli)](https://www.npmjs.com/package/@textnode/cli)
+[![npm version](https://img.shields.io/npm/v/@textnode/dev?label=@textnode/dev)](https://www.npmjs.com/package/@textnode/dev)
+
 Complete typography system for React/Next.js with custom font management, type scales, and zero layout shift.
 
 ## Features
