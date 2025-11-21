@@ -1,6 +1,6 @@
 {
   "name": "@textnode/cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CLI tools for textnode typography system - font conversion, analysis, and more",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -15,7 +15,10 @@
       "require": "./dist/index.js"
     }
   },
-  "files": ["dist", "bin"],
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
