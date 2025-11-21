@@ -1,0 +1,29 @@
+# Source files
+src/
+*.ts
+!*.d.ts
+
+# Config files
+tsconfig.json
+turbo.json
+.prettierrc
+.eslintrc*
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+__tests__/
+coverage/
+
+# Development
+.turbo/
+node_modules/
+*.log
+
+# Examples (publish separately)
+examples/
+
+# Docs (publish separately)
+docs/
