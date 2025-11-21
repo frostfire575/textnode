@@ -5,7 +5,7 @@
  * and provides context to all child components.
  */
 
-import React, { useMemo, useState, useEffect, useCallback, type ReactNode } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef, type ReactNode } from 'react';
 import {
   type TextnodeConfig,
   type FontLoadingState,
@@ -13,7 +13,9 @@ import {
   calculateScale,
   resolveAllVariants,
   generateAllFontsCSS,
+  generateSingleFontCSS,
   injectCSS,
+  appendCSS,
   preloadFonts,
   loadFonts,
   isBrowser,
@@ -45,6 +47,32 @@ export interface TypographyProviderProps {
   injectStyles?: boolean;
   /** CSS style ID for injected styles */
   styleId?: string;
+  /**
+   * Enable lazy/on-demand font loading (default: false)
+   *
+   * When true:
+   * - CSS is NOT injected for all fonts on mount
+   * - Fonts are NOT loaded on mount
+   * - CSS is injected only when a font is first requested via useFont()
+   * - Font is loaded only when requested
+   *
+   * This is useful when you have many fonts configured but only use
+   * a subset of them, avoiding unnecessary CSS generation and font downloads.
+   *
+   * @example
+   * ```tsx
+   * <TypographyProvider config={config} lazyLoad={true}>
+   *   <App />
+   * </TypographyProvider>
+   *
+   * // In a component - font loads on first render
+   * function CodeBlock() {
+   *   const { loaded } = useFont('mono'); // Triggers CSS injection + load
+   *   return <pre>{children}</pre>;
+   * }
+   * ```
+   */
+  lazyLoad?: boolean;
 }
 
 /**
@@ -77,6 +105,7 @@ export function TypographyProvider({
   preload = true,
   injectStyles = true,
   styleId = 'textnode-styles',
+  lazyLoad = false,
 }: TypographyProviderProps): React.ReactElement {
   // Font loading state
   const [fontStates, setFontStates] = useState<Record<string, FontLoadingState>>(() => {
@@ -86,6 +115,12 @@ export function TypographyProvider({
     }
     return states;
   });
+
+  // Track which fonts have been requested (for lazy loading)
+  const [requestedFonts, setRequestedFonts] = useState<Set<string>>(() => new Set());
+
+  // Track which fonts have had their CSS injected (for lazy loading)
+  const injectedFontsRef = useRef<Set<string>>(new Set());
 
   // Compute scale values
   const scale = useMemo(() => calculateScale(config.scale), [config.scale]);
@@ -161,23 +196,58 @@ export function TypographyProvider({
     await Promise.all(fontKeys.map(loadFont));
   }, [config.fonts, loadFont]);
 
-  // Inject CSS on mount
+  // Request a font (for lazy loading - injects CSS and loads font)
+  const requestFont = useCallback(
+    async (fontKey: string) => {
+      const font = config.fonts[fontKey];
+      if (!font) {
+        console.warn(`Font "${fontKey}" not found in configuration`);
+        return;
+      }
+
+      // Skip if already requested
+      if (injectedFontsRef.current.has(fontKey)) {
+        // Font CSS already injected, just ensure it's loaded
+        const currentState = fontStates[fontKey];
+        if (!currentState?.loaded && !currentState?.loading) {
+          await loadFont(fontKey);
+        }
+        return;
+      }
+
+      // Mark as requested
+      injectedFontsRef.current.add(fontKey);
+      setRequestedFonts((prev) => new Set(prev).add(fontKey));
+
+      // Inject CSS for this specific font
+      if (isBrowser() && injectStyles) {
+        const css = generateSingleFontCSS(fontKey, font);
+        appendCSS(css, styleId);
+      }
+
+      // Load the font
+      await loadFont(fontKey);
+    },
+    [config.fonts, fontStates, loadFont, injectStyles, styleId]
+  );
+
+  // Inject CSS on mount (only in non-lazy mode)
   useEffect(() => {
-    if (!isBrowser() || !injectStyles) return;
+    if (!isBrowser() || !injectStyles || lazyLoad) return;
 
     const css = generateAllFontsCSS(config.fonts);
     injectCSS(css, styleId);
-  }, [config.fonts, injectStyles, styleId]);
+  }, [config.fonts, injectStyles, styleId, lazyLoad]);
 
-  // Preload fonts on mount
+  // Preload fonts on mount (only in non-lazy mode)
   useEffect(() => {
-    if (!isBrowser() || !preload) return;
+    if (!isBrowser() || !preload || lazyLoad) return;
     preloadFonts(config.fonts);
-  }, [config.fonts, preload]);
+  }, [config.fonts, preload, lazyLoad]);
 
-  // Auto-load fonts on mount
+  // Auto-load fonts on mount (only in non-lazy mode)
   useEffect(() => {
-    if (!isBrowser() || !autoLoad) return;
+    if (!isBrowser() || !autoLoad || lazyLoad) return;
 
     const loadAllFonts = async () => {
       const fontKeys = Object.keys(config.fonts);
@@ -208,7 +278,7 @@ export function TypographyProvider({
     };
 
     loadAllFonts();
-  }, [config.fonts, autoLoad]);
+  }, [config.fonts, autoLoad, lazyLoad]);
 
   // Typography context value
   const typographyValue = useMemo<TypographyContextValue>(
@@ -230,8 +300,11 @@ export function TypographyProvider({
       allFontsState,
       loadFont,
       reloadFonts,
+      lazyLoad,
+      requestFont,
+      requestedFonts,
     }),
-    [fontStates, allFontsState, loadFont, reloadFonts]
+    [fontStates, allFontsState, loadFont, reloadFonts, lazyLoad, requestFont, requestedFonts]
   );
 
   return (

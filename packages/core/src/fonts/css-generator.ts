@@ -246,3 +246,37 @@ export function generateCriticalFontCSS(fonts: FontsConfig): string {
 
   return parts.join('\n\n');
 }
+
+/**
+ * Generate CSS for a single font by key (for lazy loading)
+ * Only generates CSS for the specified font, not all fonts
+ */
+export function generateSingleFontCSS(
+  fontKey: string,
+  font: FontDefinition,
+  metrics?: FontMetrics
+): string {
+  return generateFontCSS(fontKey, font, metrics);
+}
+
+/**
+ * Generate CSS for multiple specific fonts (for lazy loading)
+ * Only generates CSS for fonts in the provided keys array
+ */
+export function generateSelectedFontsCSS(
+  fonts: FontsConfig,
+  fontKeys: string[],
+  metricsMap?: Record<string, FontMetrics>
+): string {
+  const parts: string[] = [];
+
+  for (const key of fontKeys) {
+    const font = fonts[key];
+    if (font) {
+      const metrics = metricsMap?.[key];
+      parts.push(generateFontCSS(key, font, metrics));
+    }
+  }
+
+  return parts.join('\n\n');
+}

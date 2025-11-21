@@ -35,6 +35,8 @@ export {
   generatePreloadLinks,
   generateFontVariables,
   generateCriticalFontCSS,
+  generateSingleFontCSS,
+  generateSelectedFontsCSS,
 } from './css-generator';
 
 // Font loading
@@ -52,4 +54,6 @@ export {
   preloadFonts,
   onFontsReady,
   getFontsStatus,
+  appendCSS,
+  isFontCSSInjected,
 } from './loader';

@@ -255,3 +255,35 @@ export function getFontsStatus(): 'loading' | 'loaded' {
   if (!isBrowser()) return 'loaded';
   return document.fonts.status;
 }
+
+/**
+ * Append CSS to an existing style element or create one
+ * Used for lazy loading to incrementally add font CSS
+ */
+export function appendCSS(css: string, id: string): HTMLStyleElement | null {
+  if (!isBrowser()) return null;
+
+  const existing = document.getElementById(id) as HTMLStyleElement | null;
+  if (existing) {
+    // Append to existing styles
+    existing.textContent = (existing.textContent || '') + '\n\n' + css;
+    return existing;
+  }
+
+  // Create new style element
+  return injectCSS(css, id);
+}
+
+/**
+ * Check if CSS for a specific font has been injected
+ * Looks for the @font-face declaration in the style element
+ */
+export function isFontCSSInjected(fontName: string, styleId: string): boolean {
+  if (!isBrowser()) return false;
+
+  const styleElement = document.getElementById(styleId);
+  if (!styleElement) return false;
+
+  const css = styleElement.textContent || '';
+  return css.includes(`font-family: '${fontName}'`);
+}

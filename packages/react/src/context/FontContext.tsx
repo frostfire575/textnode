@@ -20,6 +20,12 @@ export interface FontContextValue {
   loadFont: (fontKey: string) => Promise<void>;
   /** Reload all fonts */
   reloadFonts: () => Promise<void>;
+  /** Whether lazy loading mode is enabled */
+  lazyLoad: boolean;
+  /** Request a font (triggers CSS injection and loading in lazy mode) */
+  requestFont: (fontKey: string) => Promise<void>;
+  /** Set of fonts that have been requested (for lazy mode) */
+  requestedFonts: Set<string>;
 }
 
 /**
@@ -54,6 +60,11 @@ const defaultContextValue: FontContextValue = {
   reloadFonts: async () => {
     console.warn('FontContext: No provider found');
   },
+  lazyLoad: false,
+  requestFont: async () => {
+    console.warn('FontContext: No provider found');
+  },
+  requestedFonts: new Set(),
 };
 
 /**

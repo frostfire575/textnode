@@ -132,6 +132,8 @@ export {
   generatePreloadLinks,
   generateFontVariables,
   generateCriticalFontCSS,
+  generateSingleFontCSS,
+  generateSelectedFontsCSS,
   // Font loading
   isBrowser,
   isFontFaceAPISupported,
@@ -146,6 +148,8 @@ export {
   preloadFonts,
   onFontsReady,
   getFontsStatus,
+  appendCSS,
+  isFontCSSInjected,
 } from './fonts';
 
 // Variant resolution

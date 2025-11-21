@@ -20,7 +20,7 @@ export { Heading, type HeadingProps, type HeadingLevel } from './components/Head
 
 // Hooks
 export { useTypography, type UseTypographyReturn } from './hooks/useTypography';
-export { useFont, type UseFontReturn } from './hooks/useFont';
+export { useFont, type UseFontReturn, type UseFontOptions } from './hooks/useFont';
 export { useFontLoadingState, type UseFontLoadingStateReturn } from './hooks/useFontLoadingState';
 export { useScale, type UseScaleReturn } from './hooks/useScale';
 export { useVariant, type UseVariantReturn } from './hooks/useVariant';

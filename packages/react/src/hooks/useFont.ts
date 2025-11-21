@@ -4,9 +4,21 @@
  * Track loading state for a specific font.
  */
 
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect } from 'react';
 import { useFontContext } from '../context/FontContext';
 import type { FontLoadingState } from '@textnode/core';
+
+/**
+ * Options for useFont hook
+ */
+export interface UseFontOptions {
+  /**
+   * If true, automatically load the font when the hook is first called.
+   * In lazy mode, this triggers both CSS injection and font loading.
+   * Default: true in lazy mode, false in eager mode
+   */
+  eager?: boolean;
+}
 
 /**
  * Hook return type
@@ -14,6 +26,8 @@ import type { FontLoadingState } from '@textnode/core';
 export interface UseFontReturn extends FontLoadingState {
   /** Manually trigger font load */
   load: () => Promise<void>;
+  /** Whether this font has been requested (CSS injected) */
+  requested: boolean;
 }
 
 /**
@@ -39,21 +53,37 @@ export interface UseFontReturn extends FontLoadingState {
  *
  * @example
  * ```tsx
- * // Lazy loading
+ * // With lazyLoad={true} on provider, font loads automatically on first use
  * function CodeBlock({ children }) {
- *   const { loaded, load } = useFont('mono');
+ *   const { loaded } = useFont('mono'); // Automatically triggers load in lazy mode
  *
- *   useEffect(() => {
- *     // Load mono font when code block is rendered
- *     if (!loaded) load();
- *   }, [loaded, load]);
+ *   return (
+ *     <pre style={{ opacity: loaded ? 1 : 0.5 }}>
+ *       {children}
+ *     </pre>
+ *   );
+ * }
+ * ```
  *
- *   return <pre>{children}</pre>;
+ * @example
+ * ```tsx
+ * // Disable auto-load in lazy mode
+ * function CodeBlock({ children }) {
+ *   const { loaded, load } = useFont('mono', { eager: false });
+ *
+ *   // Manually trigger load when needed
+ *   const handleFocus = () => { if (!loaded) load(); };
+ *
+ *   return <pre onFocus={handleFocus}>{children}</pre>;
  * }
  * ```
  */
-export function useFont(fontKey: string): UseFontReturn {
-  const { fontStates, loadFont } = useFontContext();
+export function useFont(fontKey: string, options: UseFontOptions = {}): UseFontReturn {
+  const { fontStates, loadFont, lazyLoad, requestFont, requestedFonts } = useFontContext();
+
+  // In lazy mode, default eager to true (auto-load on first use)
+  // In non-lazy mode, default eager to false (don't auto-load)
+  const eager = options.eager ?? lazyLoad;
 
   const state = useMemo<FontLoadingState>(() => {
     return (
@@ -65,12 +95,28 @@ export function useFont(fontKey: string): UseFontReturn {
     );
   }, [fontStates, fontKey]);
 
+  const requested = requestedFonts.has(fontKey);
+
   const load = useCallback(async () => {
-    await loadFont(fontKey);
-  }, [loadFont, fontKey]);
+    if (lazyLoad) {
+      // In lazy mode, use requestFont which handles CSS injection + loading
+      await requestFont(fontKey);
+    } else {
+      // In eager mode, just load the font (CSS already injected)
+      await loadFont(fontKey);
+    }
+  }, [loadFont, requestFont, fontKey, lazyLoad]);
+
+  // Auto-load font when eager is true and font hasn't been loaded/requested yet
+  useEffect(() => {
+    if (eager && !state.loaded && !state.loading && !requested) {
+      load();
+    }
+  }, [eager, state.loaded, state.loading, requested, load]);
 
   return {
     ...state,
     load,
+    requested,
   };
 }
