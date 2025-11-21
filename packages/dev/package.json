@@ -1,7 +1,7 @@
 {
   "name": "@textnode/dev",
-  "version": "0.2.0",
-  "description": "Development tools for textnode - debug panel, visualizers, and CLS monitor",
+  "version": "0.2.1",
+  "description": "Development tools for textnode. Debug panel, type scale visualizer, CLS monitor, and font loading inspector for React apps.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -28,11 +28,24 @@
     "fonts",
     "devtools",
     "debug",
+    "developer-tools",
     "cls-monitor",
-    "type-scale-visualizer"
+    "layout-shift",
+    "type-scale-visualizer",
+    "font-inspector",
+    "react-devtools"
   ],
-  "author": "",
+  "author": "frostfire",
   "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git",
+    "directory": "packages/dev"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
   "dependencies": {
     "@textnode/core": "workspace:*",
     "@textnode/react": "workspace:*"

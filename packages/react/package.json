@@ -1,7 +1,7 @@
 {
   "name": "@textnode/react",
-  "version": "0.2.0",
-  "description": "React components and hooks for textnode typography system",
+  "version": "0.2.1",
+  "description": "React components and hooks for textnode typography system. Text, Heading components with variants, font loading hooks, and zero CLS.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -27,11 +27,26 @@
     "typography",
     "fonts",
     "react",
+    "react-components",
     "type-scale",
-    "layout-shift"
+    "layout-shift",
+    "cls",
+    "text-component",
+    "heading-component",
+    "font-loading",
+    "polymorphic-components"
   ],
-  "author": "",
+  "author": "frostfire",
   "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
   "dependencies": {
     "@textnode/core": "workspace:*"
   },

@@ -1,5 +1,20 @@
 # @textnode/dev
 
+## 0.2.1
+
+### Patch Changes
+
+- docs: update npm package metadata
+  - Enhanced package descriptions
+  - Added comprehensive keywords for discoverability
+  - Added repository, homepage, and bugs URLs
+  - Added author information
+  - Created detailed README for each package
+
+- Updated dependencies
+  - @textnode/core@0.2.1
+  - @textnode/react@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes

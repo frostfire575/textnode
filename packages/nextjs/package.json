@@ -1,7 +1,7 @@
 {
   "name": "@textnode/nextjs",
-  "version": "0.2.0",
-  "description": "Next.js plugin and integration for textnode typography system",
+  "version": "0.2.1",
+  "description": "Next.js integration for textnode typography system. Font optimization, preloading, App Router support, and zero layout shift.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -28,11 +28,25 @@
     "fonts",
     "nextjs",
     "next.js",
+    "next",
     "type-scale",
-    "layout-shift"
+    "layout-shift",
+    "cls",
+    "font-optimization",
+    "app-router",
+    "server-components"
   ],
-  "author": "",
+  "author": "frostfire",
   "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git",
+    "directory": "packages/nextjs"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
   "dependencies": {
     "@textnode/core": "workspace:*",
     "@textnode/react": "workspace:*"

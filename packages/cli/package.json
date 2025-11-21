@@ -1,7 +1,7 @@
 {
   "name": "@textnode/cli",
-  "version": "0.2.0",
-  "description": "CLI tools for textnode typography system - font conversion, analysis, and more",
+  "version": "0.2.1",
+  "description": "CLI tools for textnode typography system. Initialize projects, analyze fonts, export design tokens to CSS/SCSS/Tailwind/JSON.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -31,12 +31,26 @@
     "typography",
     "fonts",
     "cli",
-    "font-subset",
-    "font-conversion",
-    "type-scale"
+    "command-line",
+    "font-analysis",
+    "design-tokens",
+    "css-variables",
+    "scss",
+    "tailwind",
+    "type-scale",
+    "font-metrics"
   ],
-  "author": "",
+  "author": "frostfire",
   "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
   "dependencies": {
     "@textnode/core": "workspace:*",
     "chalk": "^5.3.0",

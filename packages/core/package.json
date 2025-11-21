@@ -1,7 +1,7 @@
 {
   "name": "@textnode/core",
-  "version": "0.2.0",
-  "description": "Core typography system - framework agnostic",
+  "version": "0.2.1",
+  "description": "Complete typography system for the web. Type scales, font management, CSS generation, and zero layout shift - framework agnostic.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -27,12 +27,27 @@
     "typography",
     "fonts",
     "type-scale",
+    "modular-scale",
+    "fluid-typography",
     "layout-shift",
     "cls",
-    "web-fonts"
+    "web-fonts",
+    "font-loading",
+    "css-generation",
+    "fallback-fonts",
+    "font-metrics"
   ],
-  "author": "",
+  "author": "frostfire",
   "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.3.0",
