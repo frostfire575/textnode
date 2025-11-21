@@ -1,6 +1,6 @@
 {
   "name": "@textnode/react",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "React components and hooks for textnode typography system. Text, Heading components with variants, font loading hooks, and zero CLS.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

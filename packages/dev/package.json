@@ -1,6 +1,6 @@
 {
   "name": "@textnode/dev",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Development tools for textnode. Debug panel, type scale visualizer, CLS monitor, and font loading inspector for React apps.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

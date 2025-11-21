@@ -1,5 +1,13 @@
 # @textnode/nextjs
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @textnode/core@0.3.0
+  - @textnode/react@0.3.0
+
 ## 0.2.1
 
 ### Patch Changes

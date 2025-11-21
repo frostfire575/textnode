@@ -1,6 +1,6 @@
 {
   "name": "@textnode/cli",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "CLI tools for textnode typography system. Initialize projects, analyze fonts, export design tokens to CSS/SCSS/Tailwind/JSON.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

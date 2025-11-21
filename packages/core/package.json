@@ -1,6 +1,6 @@
 {
   "name": "@textnode/core",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Complete typography system for the web. Type scales, font management, CSS generation, and zero layout shift - framework agnostic.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
