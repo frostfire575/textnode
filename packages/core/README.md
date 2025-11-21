@@ -8,6 +8,7 @@ Part of the [textnode](https://github.com/frostfire575/textnode) typography syst
 
 - **Type Scales** - Modular, fixed, and fluid (CSS clamp) scales
 - **Font Management** - CSS @font-face generation with fallback matching
+- **Lazy Loading Support** - Utilities for on-demand font CSS generation
 - **Zero Layout Shift** - Automatic fallback font metrics for CLS prevention
 - **Design Tokens** - Export to CSS variables, SCSS, Tailwind, or JSON
 - **TypeScript First** - Full type safety and IntelliSense support
@@ -91,6 +92,27 @@ const scale = {
   maxBase: 18,
   ratio: 1.2,
 };
+```
+
+## Lazy Loading Utilities
+
+For on-demand font loading, generate CSS for specific fonts only:
+
+```typescript
+import {
+  generateSingleFontCSS,
+  generateSelectedFontsCSS,
+  appendCSS,
+} from '@textnode/core';
+
+// Generate CSS for one font
+const monoCSS = generateSingleFontCSS('mono', config.fonts.mono);
+
+// Generate CSS for multiple specific fonts
+const selectedCSS = generateSelectedFontsCSS(config.fonts, ['heading', 'body']);
+
+// Append CSS to existing style element (for incremental loading)
+appendCSS(monoCSS, 'textnode-styles');
 ```
 
 ## Related Packages

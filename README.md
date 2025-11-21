@@ -5,6 +5,7 @@ Complete typography system for React/Next.js with custom font management, type s
 ## Features
 
 - **Zero Layout Shift** - Automatic fallback font matching prevents CLS during font loading
+- **Lazy Font Loading** - Load fonts on-demand to reduce initial bundle size
 - **Type Scale System** - Modular, fixed, or fluid typography scales
 - **React Components** - Ready-to-use `<Text>` and `<Heading>` components
 - **Full TypeScript Support** - Complete type safety with autocomplete
@@ -202,6 +203,21 @@ Track specific font loading state.
 
 ```tsx
 const { loaded, loading, error, load } = useFont('heading');
+```
+
+With lazy loading enabled, `useFont()` automatically triggers font loading:
+
+```tsx
+// Enable lazy loading on provider
+<TypographyProvider config={config} lazyLoad={true}>
+  <App />
+</TypographyProvider>
+
+// Font loads when this component renders
+function CodeBlock({ children }) {
+  const { loaded } = useFont('mono'); // Auto-loads in lazy mode
+  return <pre style={{ opacity: loaded ? 1 : 0.5 }}>{children}</pre>;
+}
 ```
 
 ### useFontLoadingState

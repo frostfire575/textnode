@@ -9,6 +9,7 @@ Part of the [textnode](https://github.com/frostfire575/textnode) typography syst
 - **Text & Heading Components** - Polymorphic components with variant support
 - **Typography Provider** - Context-based configuration
 - **Font Loading Hooks** - Track font loading state
+- **Lazy Font Loading** - Load fonts on-demand to reduce initial bundle
 - **Zero CLS** - Automatic fallback font matching
 - **TypeScript First** - Full type safety
 
@@ -74,6 +75,17 @@ Versatile text component with polymorphic `as` prop.
 
 ## Hooks
 
+### `useFont()`
+
+Track and control font loading for a specific font.
+
+```tsx
+const { loaded, loading, error, load } = useFont('heading');
+
+if (loading) return <Skeleton />;
+if (error) return <Fallback />;
+```
+
 ### `useFontLoadingState()`
 
 ```tsx
@@ -94,6 +106,60 @@ const { scale, fonts, variants } = useTypography();
 const bodyStyles = useVariant('body');
 // { fontSize: '16px', lineHeight: 1.6, fontFamily: '...' }
 ```
+
+## Lazy Font Loading
+
+By default, all fonts are loaded on mount. Enable lazy loading to only load fonts when they're actually used:
+
+```tsx
+<TypographyProvider config={config} lazyLoad={true}>
+  <App />
+</TypographyProvider>
+```
+
+With `lazyLoad={true}`:
+- No CSS is injected on mount
+- No fonts are downloaded on mount
+- Fonts load automatically when `useFont()` is called
+
+### On-Demand Loading Example
+
+```tsx
+function CodeBlock({ children }) {
+  // In lazy mode, this triggers CSS injection + font download
+  const { loaded } = useFont('mono');
+
+  return (
+    <pre style={{ opacity: loaded ? 1 : 0.5 }}>
+      {children}
+    </pre>
+  );
+}
+```
+
+### Manual Load Control
+
+```tsx
+function CodeBlock({ children }) {
+  // Disable auto-loading with eager: false
+  const { loaded, load } = useFont('mono', { eager: false });
+
+  return (
+    <pre onMouseEnter={() => !loaded && load()}>
+      {children}
+    </pre>
+  );
+}
+```
+
+### When to Use Lazy Loading
+
+| Scenario | Recommendation |
+|----------|----------------|
+| Few fonts, all used on initial render | `lazyLoad={false}` (default) |
+| Many fonts, only some used per page | `lazyLoad={true}` |
+| Code/mono fonts used conditionally | `lazyLoad={true}` |
+| Critical above-the-fold text | `lazyLoad={false}` |
 
 ## Props Reference
 
