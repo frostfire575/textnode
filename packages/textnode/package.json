@@ -1,0 +1,66 @@
+{
+  "name": "@textnode/textnode",
+  "version": "0.2.2",
+  "description": "Complete typography system for React and Next.js. Type scales, font loading, zero layout shift, and beautiful text rendering out of the box.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "typography",
+    "fonts",
+    "react",
+    "nextjs",
+    "type-scale",
+    "modular-scale",
+    "layout-shift",
+    "cls",
+    "font-loading",
+    "font-metrics",
+    "text-rendering",
+    "web-typography",
+    "design-system",
+    "css-variables"
+  ],
+  "author": "frostfire",
+  "license": "MIT",
+  "homepage": "https://github.com/frostfire575/textnode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostfire575/textnode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frostfire575/textnode/issues"
+  },
+  "dependencies": {
+    "@textnode/core": "workspace:*",
+    "@textnode/react": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
